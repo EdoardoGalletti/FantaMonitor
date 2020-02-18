@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/new/img">
+        <file>Resources/BtnImages/AddPlayer.png</file>
+        <file>Resources/BtnImages/AddTeam.png</file>
+        <file>Resources/BtnImages/Crystal_Project_Messagebox_critical.png</file>
+        <file>Resources/BtnImages/Crystal_Project_Messagebox_warning.png</file>
+        <file>Resources/BtnImages/Crystal_Project_tick_yellow.png</file>
+        <file>Resources/BtnImages/ExcelExport.png</file>
+        <file>Resources/BtnImages/FantaManagerLogo.png</file>
+        <file>Resources/BtnImages/ModifyTeam.png</file>
+        <file>Resources/BtnImages/Refresh.png</file>
+        <file>Resources/BtnImages/Refresh2.png</file>
+        <file>Resources/BtnImages/RemovePlayer.png</file>
+        <file>Resources/BtnImages/RemoveTeam.png</file>
+        <file>Resources/BtnImages/Reset.png</file>
+        <file>Resources/BtnImages/saveAll.png</file>
+        <file>Resources/BtnImages/Start.png</file>
+        <file>Resources/BtnImages/Stop.png</file>
+        <file>Resources/BtnImages/Success.png</file>
+    </qresource>
+</RCC>
