@@ -36,8 +36,8 @@ QPushButton {
    <widget class="QPushButton" name="testButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>310</y>
+      <x>30</x>
+      <y>410</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -53,120 +53,138 @@ QPushButton {
       <normaloff>:/new/img/Resources/BtnImages/Crystal_Project_Messagebox_warning.png</normaloff>:/new/img/Resources/BtnImages/Crystal_Project_Messagebox_warning.png</iconset>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>110</y>
-      <width>107</width>
-      <height>30</height>
+      <x>286</x>
+      <y>99</y>
+      <width>879</width>
+      <height>251</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="rmTeamPb">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>60</y>
-      <width>45</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image: url(:/new/img/Resources/BtnImages/RemoveTeam.png) 0 0 0 0 stretch stretch;</string>
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
-    <property name="text">
-     <string/>
+    <property name="title">
+     <string>Teams Management</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="addTeamPb">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>50</y>
-      <width>45</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="toolTip">
-     <string>Add a new Team</string>
-    </property>
-    <property name="toolTipDuration">
-     <number>2</number>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-image: url(:/new/img/Resources/BtnImages/AddTeam.png) 0 0 0 0 stretch stretch;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="modTeamPb">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>150</y>
-      <width>45</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-image: url(:/new/img/Resources/BtnImages/ModifyTeam.png) 0 0 0 0 stretch stretch;
+    <widget class="QPushButton" name="rmTeamPb">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>40</y>
+       <width>45</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addTeamPb">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>33</x>
+       <y>40</y>
+       <width>45</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Add a new Team</string>
+     </property>
+     <property name="toolTipDuration">
+      <number>2</number>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
 </string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="expTeamPb">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>150</y>
-      <width>45</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-image: url(:/new/img/Resources/BtnImages/ExcelExport.png) 0 0 0 0 stretch stretch;
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="geometry">
+      <rect>
+       <x>33</x>
+       <y>90</y>
+       <width>107</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="expTeamPb">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>130</y>
+       <width>45</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="modTeamPb">
+     <property name="geometry">
+      <rect>
+       <x>33</x>
+       <y>130</y>
+       <width>45</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
