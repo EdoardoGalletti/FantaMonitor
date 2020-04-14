@@ -17,8 +17,6 @@ public:
 
 private slots:
 
-    void on_testButton_clicked();
-
 private:
     Ui::MainWindow *ui;
 };
