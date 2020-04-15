@@ -6,6 +6,9 @@
 #include <QTextEdit>
 #include <QTableView>
 #include <QComboBox>
+#include <QCheckBox>
+#include <QWidget>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -74,6 +77,44 @@ MainWindow::MainWindow(QWidget *parent)
     rmPlayerPb->setIconSize(QSize(32, 32));
     refreshPlayersPb->setIconSize(QSize(32, 32));
 
+    // Create Player Info Panel
+    QGroupBox* playerInfoPanel = new QGroupBox(this);
+    // Create Player Info Widgets
+    QTableView* playerInfoTab = new QTableView(playerInfoPanel);
+    QCheckBox* graphsCb = new QCheckBox(playerInfoPanel);
+    QWidget* playedGamesAx = new QWidget(playerInfoPanel);
+    QWidget* bonusAx = new QWidget(playerInfoPanel);
+    QLabel* playerNameLabel = new QLabel(playerInfoPanel);
+    // Set geometry
+    playerInfoPanel->setGeometry(740, 397, 450, 354);
+    playerInfoPanel->setTitle("Player Info");
+    playerInfoTab->setGeometry(20, 59, 202, 275);
+    graphsCb->setGeometry(359, 15, 75, 23);
+    playedGamesAx->setGeometry(258, 52, 140, 140);
+    bonusAx->setGeometry(258, 197, 140, 140);
+    playerNameLabel->setGeometry(20, 19, 200, 25);
+
+    // Create Timer Panel
+    QGroupBox* TimerPanel = new QGroupBox(this);
+    // Create Timer Widgets
+    QTextEdit* timerEb = new QTextEdit(TimerPanel);
+    QPushButton* startPb = new QPushButton(TimerPanel);
+    QPushButton* stopPb = new QPushButton(TimerPanel);
+    QPushButton* resetPb = new QPushButton(TimerPanel);
+    // Set geometry
+    TimerPanel->setGeometry(482, 396, 200, 150);
+    TimerPanel->setTitle("Timer Panel");
+    timerEb->setGeometry(78, 21, 45, 45);
+    startPb->setGeometry(16, 88, 45, 45);
+    stopPb->setGeometry(78, 88, 45, 45);
+    resetPb->setGeometry(140, 88, 45, 45);
+    // Set icons
+    startPb->setIcon(QIcon(":/new/img/Resources/BtnImages/Start.png"));
+    stopPb->setIcon(QIcon(":/new/img/Resources/BtnImages/Stop.png"));
+    resetPb->setIcon(QIcon(":/new/img/Resources/BtnImages/Reset.png"));
+    startPb->setIconSize(QSize(32, 32));
+    stopPb->setIconSize(QSize(32, 32));
+    resetPb->setIconSize(QSize(32, 32));
 
     /*****************************************************/
     /**************** qApp STYLESHEET ********************/
@@ -86,7 +127,8 @@ MainWindow::MainWindow(QWidget *parent)
                                 "QTextEdit           {color: #000000; background-color: #ffffff}"
                                 "QComboBox           {color: #000000; background-color: #ffffff}"
                                 "QMainWindow         {background-color: #000000}"
-                                "QMenuBar            {background-color: #000000}"));
+                                "QMenuBar            {background-color: #000000}"
+                                "QLabel              {color: #ffffff; background-color: #000000}"));
 
 }
 
