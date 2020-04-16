@@ -1,36 +1,41 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qmessagebox.h"
-#include <QPushButton>
-#include <QGroupBox>
-#include <QTextEdit>
-#include <QTableView>
-#include <QComboBox>
-#include <QCheckBox>
-#include <QWidget>
-#include <QLabel>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+    //, ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    setup();
+    //ui->setupUi(this);
+}
 
+MainWindow::~MainWindow()
+{
+    //delete ui;
+}
+
+
+void MainWindow::setup()
+{
+    // Main Window setup
+    this->setGeometry(0, 0, 1201, 801);
+    statusBar = new QStatusBar(this);
+    statusBar->setGeometry(0, this->height() - 20, this->width(), 20);
 
     /*****************************************************/
     /**************** QWIDGETS CREATION ******************/
     /*****************************************************/
 
     // Create Teams Management Panel
-    QGroupBox* teamsManagementPanel = new QGroupBox(this);
+    teamsManagementPanel = new QGroupBox(this);
     // Create Teams Management SubWidgets
-    QPushButton* rmTeamPb = new QPushButton(teamsManagementPanel);
-    QPushButton* addTeamPb = new QPushButton(teamsManagementPanel);
-    QPushButton* expTeamPb = new QPushButton(teamsManagementPanel);
-    QPushButton* modTeamPb = new QPushButton(teamsManagementPanel);
-    QTextEdit* teamsNameEdit = new QTextEdit(teamsManagementPanel);
-    QTableView* teamTable = new QTableView(teamsManagementPanel);
-    QTableView* teamTab = new QTableView(teamsManagementPanel);
+    rmTeamPb = new QPushButton(teamsManagementPanel);
+    addTeamPb = new QPushButton(teamsManagementPanel);
+    expTeamPb = new QPushButton(teamsManagementPanel);
+    modTeamPb = new QPushButton(teamsManagementPanel);
+    teamsNameEdit = new QTextEdit(teamsManagementPanel);
+    teamTable = new QTableView(teamsManagementPanel);
+    teamTab = new QTableView(teamsManagementPanel);
     // Set geometry
     teamsManagementPanel->setGeometry(290, 101, 900, 250);
     teamsManagementPanel->setTitle("Teams Management");
@@ -50,16 +55,18 @@ MainWindow::MainWindow(QWidget *parent)
     addTeamPb->setIconSize(QSize(32, 32));
     expTeamPb->setIconSize(QSize(32, 32));
     modTeamPb->setIconSize(QSize(32, 32));
+    // Signals and Slots
+    QObject::connect(addTeamPb, SIGNAL(clicked()), this, SLOT(on_addTeamPb_clicked()));
 
     // Create Players Management Panel
-    QGroupBox* playersManagementPanel = new QGroupBox(this);
+    playersManagementPanel = new QGroupBox(this);
     // Create Player Management Pushbuttons
-    QPushButton* addPlayerPb = new QPushButton(playersManagementPanel);
-    QPushButton* rmPlayerPb = new QPushButton(playersManagementPanel);
-    QPushButton* refreshPlayersPb = new QPushButton(playersManagementPanel);
-    QTableView* freeTab = new QTableView(playersManagementPanel);
-    QTextEdit* searchBox = new QTextEdit(playersManagementPanel);
-    QComboBox* rolePopup = new QComboBox(playersManagementPanel);
+    addPlayerPb = new QPushButton(playersManagementPanel);
+    rmPlayerPb = new QPushButton(playersManagementPanel);
+    refreshPlayersPb = new QPushButton(playersManagementPanel);
+    freeTab = new QTableView(playersManagementPanel);
+    searchBox = new QTextEdit(playersManagementPanel);
+    rolePopup = new QComboBox(playersManagementPanel);
     // Set geometry
     playersManagementPanel->setGeometry(50, 396, 375, 355);
     playersManagementPanel->setTitle("Players Management");
@@ -78,13 +85,13 @@ MainWindow::MainWindow(QWidget *parent)
     refreshPlayersPb->setIconSize(QSize(32, 32));
 
     // Create Player Info Panel
-    QGroupBox* playerInfoPanel = new QGroupBox(this);
+    playerInfoPanel = new QGroupBox(this);
     // Create Player Info Widgets
-    QTableView* playerInfoTab = new QTableView(playerInfoPanel);
-    QCheckBox* graphsCb = new QCheckBox(playerInfoPanel);
-    QWidget* playedGamesAx = new QWidget(playerInfoPanel);
-    QWidget* bonusAx = new QWidget(playerInfoPanel);
-    QLabel* playerNameLabel = new QLabel(playerInfoPanel);
+    playerInfoTab = new QTableView(playerInfoPanel);
+    graphsCb = new QCheckBox(playerInfoPanel);
+    playedGamesAx = new QWidget(playerInfoPanel);
+    bonusAx = new QWidget(playerInfoPanel);
+    playerNameLabel = new QLabel(playerInfoPanel);
     // Set geometry
     playerInfoPanel->setGeometry(740, 397, 450, 354);
     playerInfoPanel->setTitle("Player Info");
@@ -95,12 +102,12 @@ MainWindow::MainWindow(QWidget *parent)
     playerNameLabel->setGeometry(20, 19, 200, 25);
 
     // Create Timer Panel
-    QGroupBox* TimerPanel = new QGroupBox(this);
+    TimerPanel = new QGroupBox(this);
     // Create Timer Widgets
-    QTextEdit* timerEb = new QTextEdit(TimerPanel);
-    QPushButton* startPb = new QPushButton(TimerPanel);
-    QPushButton* stopPb = new QPushButton(TimerPanel);
-    QPushButton* resetPb = new QPushButton(TimerPanel);
+    timerEb = new QTextEdit(TimerPanel);
+    startPb = new QPushButton(TimerPanel);
+    stopPb = new QPushButton(TimerPanel);
+    resetPb = new QPushButton(TimerPanel);
     // Set geometry
     TimerPanel->setGeometry(482, 396, 200, 150);
     TimerPanel->setTitle("Timer Panel");
@@ -128,11 +135,14 @@ MainWindow::MainWindow(QWidget *parent)
                                 "QComboBox           {color: #000000; background-color: #ffffff}"
                                 "QMainWindow         {background-color: #000000}"
                                 "QMenuBar            {background-color: #000000}"
-                                "QLabel              {color: #ffffff; background-color: #000000}"));
+                                "QLabel              {color: #ffffff; background-color: #000000}"
+                                "QStatusBar          {color: #ffffff; background-color: #808080;}"));
 
+    // Set Main Window title
+    this->setWindowTitle("Fanta Manager v0.01");
 }
 
-MainWindow::~MainWindow()
+void MainWindow::on_addTeamPb_clicked()
 {
-    delete ui;
+    this->statusBar->showMessage("Button Pressed!");
 }
