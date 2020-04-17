@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //, ui(new Ui::MainWindow)
 {
     setup();
+    createActions();
+    createMenus();
     //ui->setupUi(this);
 }
 
@@ -34,8 +36,18 @@ void MainWindow::setup()
     expTeamPb = new QPushButton(teamsManagementPanel);
     modTeamPb = new QPushButton(teamsManagementPanel);
     teamsNameEdit = new QTextEdit(teamsManagementPanel);
-    teamTable = new QTableView(teamsManagementPanel);
-    teamTab = new QTableView(teamsManagementPanel);
+    teamTable = new QTableWidget(teamsManagementPanel);
+    teamTable->setRowCount(8);
+    teamTable->setColumnCount(2);
+    teamTableHeader<<"Name"<<"Credits";
+    teamTable->setHorizontalHeaderLabels(teamTableHeader);
+    teamTable->verticalHeader()->setVisible(false); // disattiva i numeri delle righe a sinistra
+    teamTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    teamTable->setSelectionBehavior(QAbstractItemView::SelectRows); // Quando selezioni una cella seleziona tutta la riga
+    teamTable->setSelectionMode(QAbstractItemView::SingleSelection); // selezione singola
+    teamTable->setShowGrid(false); // non mostra la griglia
+    teamTable->setStyleSheet("QTableView {selection-background-color: red;}"); // sfondo rosso della selezione
+    teamTab = new QTableWidget(teamsManagementPanel);
     // Set geometry
     teamsManagementPanel->setGeometry(290, 101, 900, 250);
     teamsManagementPanel->setTitle("Teams Management");
@@ -64,7 +76,7 @@ void MainWindow::setup()
     addPlayerPb = new QPushButton(playersManagementPanel);
     rmPlayerPb = new QPushButton(playersManagementPanel);
     refreshPlayersPb = new QPushButton(playersManagementPanel);
-    freeTab = new QTableView(playersManagementPanel);
+    freeTab = new QTableWidget(playersManagementPanel);
     searchBox = new QTextEdit(playersManagementPanel);
     rolePopup = new QComboBox(playersManagementPanel);
     // Set geometry
@@ -87,7 +99,7 @@ void MainWindow::setup()
     // Create Player Info Panel
     playerInfoPanel = new QGroupBox(this);
     // Create Player Info Widgets
-    playerInfoTab = new QTableView(playerInfoPanel);
+    playerInfoTab = new QTableWidget(playerInfoPanel);
     graphsCb = new QCheckBox(playerInfoPanel);
     playedGamesAx = new QWidget(playerInfoPanel);
     bonusAx = new QWidget(playerInfoPanel);
@@ -136,13 +148,61 @@ void MainWindow::setup()
                                 "QMainWindow         {background-color: #000000}"
                                 "QMenuBar            {background-color: #000000}"
                                 "QLabel              {color: #ffffff; background-color: #000000}"
-                                "QStatusBar          {color: #ffffff; background-color: #808080;}"));
+                                "QStatusBar          {color: #ffffff; background-color: #808080}"
+                                "QMenuBar            {color: #ffffff; background-color: #000000}"));
 
     // Set Main Window title
     this->setWindowTitle("Fanta Manager v0.01");
 }
 
+void MainWindow::createActions()
+{
+    newAct = new QAction(tr("&New"), this);
+    newAct->setShortcuts(QKeySequence::New);
+    newAct->setStatusTip(tr("Create a new file"));
+    connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
+//    ...
+//    alignmentGroup = new QActionGroup(this);
+//    alignmentGroup->addAction(leftAlignAct);
+//    alignmentGroup->addAction(rightAlignAct);
+//    alignmentGroup->addAction(justifyAct);
+//    alignmentGroup->addAction(centerAct);
+//    leftAlignAct->setChecked(true);
+}
+
+void MainWindow::createMenus()
+{
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAct);
+//    fileMenu->addAction(openAct);
+//    fileMenu->addAction(saveAct);
+//    fileMenu->addAction(printAct);
+//    fileMenu->addSeparator();
+//    fileMenu->addAction(exitAct);
+
+    editMenu = menuBar()->addMenu(tr("&Edit"));
+//    editMenu->addAction(undoAct);
+//    editMenu->addAction(redoAct);
+//    editMenu->addSeparator();
+//    editMenu->addAction(cutAct);
+//    editMenu->addAction(copyAct);
+//    editMenu->addAction(pasteAct);
+//    editMenu->addSeparator();
+
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+//    helpMenu->addAction(aboutAct);
+//    helpMenu->addAction(aboutQtAct);
+}
+
+void MainWindow::newFile()
+{
+
+}
+
 void MainWindow::on_addTeamPb_clicked()
 {
-    this->statusBar->showMessage("Button Pressed!");
+    // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
+    QString teamName = teamsNameEdit->toPlainText();
+    //insert data
+    teamTable->setItem(0, 0, new QTableWidgetItem(teamName));
 }

@@ -5,12 +5,13 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QTextEdit>
-#include <QTableView>
+#include <QTableWidget>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QWidget>
 #include <QLabel>
 #include <QObject>
+#include <QHeaderView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,9 +37,38 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void setup();
+    void createMenus();
+    void createActions();
+    void newFile();
 
-    // Status Bar
+    // Status Bar & Menu Bar
     QStatusBar* statusBar;
+
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *helpMenu;
+//    QActionGroup *alignmentGroup;
+    QAction *newAct;
+//    QAction *openAct;
+//    QAction *saveAct;
+//    QAction *printAct;
+//    QAction *exitAct;
+//    QAction *undoAct;
+//    QAction *redoAct;
+//    QAction *cutAct;
+//    QAction *copyAct;
+//    QAction *pasteAct;
+//    QAction *boldAct;
+//    QAction *italicAct;
+//    QAction *leftAlignAct;
+//    QAction *rightAlignAct;
+//    QAction *justifyAct;
+//    QAction *centerAct;
+//    QAction *setLineSpacingAct;
+//    QAction *setParagraphSpacingAct;
+//    QAction *aboutAct;
+//    QAction *aboutQtAct;
+//    QLabel *infoLabel;
 
     // Create Teams Management Panel
     QGroupBox* teamsManagementPanel;
@@ -48,8 +78,9 @@ private:
     QPushButton* expTeamPb;
     QPushButton* modTeamPb;
     QTextEdit* teamsNameEdit;
-    QTableView* teamTable;
-    QTableView* teamTab;
+    QTableWidget* teamTable;
+    QStringList teamTableHeader;
+    QTableWidget* teamTab;
 
     // Create Players Management Panel
     QGroupBox* playersManagementPanel;
@@ -57,14 +88,14 @@ private:
     QPushButton* addPlayerPb;
     QPushButton* rmPlayerPb;
     QPushButton* refreshPlayersPb;
-    QTableView* freeTab;
+    QTableWidget* freeTab;
     QTextEdit* searchBox;
     QComboBox* rolePopup;
 
     // Create Player Info Panel
     QGroupBox* playerInfoPanel;
     // Create Player Info Widgets
-    QTableView* playerInfoTab;
+    QTableWidget* playerInfoTab;
     QCheckBox* graphsCb;
     QWidget* playedGamesAx;
     QWidget* bonusAx;
