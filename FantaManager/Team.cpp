@@ -2,7 +2,8 @@
 
 
 // Constructors
-Team::Team() {};
+Team::Team() {
+};
 
 
 // Setter & Getters

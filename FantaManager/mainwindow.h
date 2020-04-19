@@ -32,9 +32,7 @@ public:
     ~MainWindow();
 
     std::vector<League> Leagues;
-    int numLeagues = 0;
-    std::vector<Team> Teams;
-    int numTeams = 0;
+    int numLeagues = 0, LeagueID = 0;
 
 public slots:
     // Push Buttons Slots
@@ -47,7 +45,7 @@ private:
     void setup();
     void createMenus();
     void createActions();
-    void newFile();
+    void newLeague();
 
     // Status Bar & Menu Bar
     QStatusBar* statusBar;

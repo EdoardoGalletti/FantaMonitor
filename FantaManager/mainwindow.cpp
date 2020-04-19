@@ -149,7 +149,9 @@ void MainWindow::setup()
                                 "QMenuBar            {background-color: #000000}"
                                 "QLabel              {color: #ffffff; background-color: #000000}"
                                 "QStatusBar          {color: #ffffff; background-color: #808080}"
-                                "QMenuBar            {color: #ffffff; background-color: #000000}"));
+                                "QMenuBar            {color: #ffffff; background-color: #000000}"
+                                "QMessageBox         {background-color: #000000}"
+                                "QMessageBox QPushButton {}"));
 
     // Set Main Window title
     this->setWindowTitle("Fanta Manager v0.01");
@@ -157,10 +159,10 @@ void MainWindow::setup()
 
 void MainWindow::createActions()
 {
-    newAct = new QAction(tr("&New"), this);
+    newAct = new QAction(tr("&New League"), this);
     newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
+    newAct->setStatusTip(tr("Create a new league"));
+    connect(newAct, &QAction::triggered, this, &MainWindow::newLeague);
     //    ...
     //    alignmentGroup = new QActionGroup(this);
     //    alignmentGroup->addAction(leftAlignAct);
@@ -194,25 +196,32 @@ void MainWindow::createMenus()
     //    helpMenu->addAction(aboutQtAct);
 }
 
-void MainWindow::newFile()
+void MainWindow::newLeague()
 {
-
+    LeagueID = numLeagues;
+    numLeagues += 1;
+    Leagues.resize(numLeagues);
+    Leagues[LeagueID].setLeagueName(QString("Lega di prova"));
+    this->statusBar->showMessage("League successfully created!");
 }
 
 void MainWindow::on_addTeamPb_clicked()
 {
-    numTeams += 1;
-    Teams.resize(numTeams);
-    // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
-    QString teamName = teamsNameEdit->toPlainText();
-
-    Teams[numTeams - 1].setTeamName(teamName);
-    Teams[numTeams - 1].setTeamCredits(1000);
-
-    //insert data
-    for (int i = 0; i < numTeams; i++) {
-        teamTable->setItem(i, 0, new QTableWidgetItem( Teams[i].getTeamName() ) );
-        teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Teams[i].getTeamCredits()) ) );
+    if (numLeagues == 0){
+        QMessageBox noLeagueErrorBox;
+        noLeagueErrorBox.setIcon(QMessageBox::Critical);
+        noLeagueErrorBox.setText("No League Available! Please, create one!");
+        noLeagueErrorBox.exec();
     }
+    else {
+        // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
+        QString teamName = teamsNameEdit->toPlainText();
+        Leagues[LeagueID].addTeam(teamName);
+        //insert data
+        for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
+            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
+            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
+        }
+    };
 
 }
