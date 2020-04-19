@@ -3,7 +3,7 @@
 #include "qmessagebox.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
-    //, ui(new Ui::MainWindow)
+  //, ui(new Ui::MainWindow)
 {
     setup();
     createActions();
@@ -161,37 +161,37 @@ void MainWindow::createActions()
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new file"));
     connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
-//    ...
-//    alignmentGroup = new QActionGroup(this);
-//    alignmentGroup->addAction(leftAlignAct);
-//    alignmentGroup->addAction(rightAlignAct);
-//    alignmentGroup->addAction(justifyAct);
-//    alignmentGroup->addAction(centerAct);
-//    leftAlignAct->setChecked(true);
+    //    ...
+    //    alignmentGroup = new QActionGroup(this);
+    //    alignmentGroup->addAction(leftAlignAct);
+    //    alignmentGroup->addAction(rightAlignAct);
+    //    alignmentGroup->addAction(justifyAct);
+    //    alignmentGroup->addAction(centerAct);
+    //    leftAlignAct->setChecked(true);
 }
 
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newAct);
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(printAct);
-//    fileMenu->addSeparator();
-//    fileMenu->addAction(exitAct);
+    //    fileMenu->addAction(openAct);
+    //    fileMenu->addAction(saveAct);
+    //    fileMenu->addAction(printAct);
+    //    fileMenu->addSeparator();
+    //    fileMenu->addAction(exitAct);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
-//    editMenu->addAction(undoAct);
-//    editMenu->addAction(redoAct);
-//    editMenu->addSeparator();
-//    editMenu->addAction(cutAct);
-//    editMenu->addAction(copyAct);
-//    editMenu->addAction(pasteAct);
-//    editMenu->addSeparator();
+    //    editMenu->addAction(undoAct);
+    //    editMenu->addAction(redoAct);
+    //    editMenu->addSeparator();
+    //    editMenu->addAction(cutAct);
+    //    editMenu->addAction(copyAct);
+    //    editMenu->addAction(pasteAct);
+    //    editMenu->addSeparator();
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
-//    helpMenu->addAction(aboutAct);
-//    helpMenu->addAction(aboutQtAct);
+    //    helpMenu->addAction(aboutAct);
+    //    helpMenu->addAction(aboutQtAct);
 }
 
 void MainWindow::newFile()
@@ -201,8 +201,15 @@ void MainWindow::newFile()
 
 void MainWindow::on_addTeamPb_clicked()
 {
+    numTeams += 1;
+    Teams.resize(numTeams);
     // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
     QString teamName = teamsNameEdit->toPlainText();
+
+    Teams[numTeams - 1].setTeamName(teamName);
     //insert data
-    teamTable->setItem(0, 0, new QTableWidgetItem(teamName));
+    for (int i = 0; i < numTeams; i++) {
+        teamTable->setItem(i, 0, new QTableWidgetItem( Teams[i].getTeamName() ) );
+    }
+
 }

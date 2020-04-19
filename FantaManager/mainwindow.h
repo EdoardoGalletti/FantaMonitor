@@ -12,6 +12,9 @@
 #include <QLabel>
 #include <QObject>
 #include <QHeaderView>
+#include <vector>
+#include "Team.h"
+#include "League.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +30,11 @@ public:
 
     // Destructors
     ~MainWindow();
+
+    std::vector<League> Leagues;
+    int numLeagues = 0;
+    std::vector<Team> Teams;
+    int numTeams = 0;
 
 public slots:
     // Push Buttons Slots
