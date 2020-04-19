@@ -207,9 +207,12 @@ void MainWindow::on_addTeamPb_clicked()
     QString teamName = teamsNameEdit->toPlainText();
 
     Teams[numTeams - 1].setTeamName(teamName);
+    Teams[numTeams - 1].setTeamCredits(1000);
+
     //insert data
     for (int i = 0; i < numTeams; i++) {
         teamTable->setItem(i, 0, new QTableWidgetItem( Teams[i].getTeamName() ) );
+        teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Teams[i].getTeamCredits()) ) );
     }
 
 }
