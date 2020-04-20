@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
+#include <QAction>
 #include <QPushButton>
 #include <QGroupBox>
 #include <QTextEdit>
@@ -12,6 +14,8 @@
 #include <QLabel>
 #include <QObject>
 #include <QHeaderView>
+#include <QStatusBar>
+#include <QMenuBar>
 #include <vector>
 #include "Team.h"
 #include "League.h"
