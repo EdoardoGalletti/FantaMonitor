@@ -19,6 +19,11 @@
 #include <vector>
 #include "Team.h"
 #include "League.h"
+#include "CreateLeagueUI.h"
+#include <QStyle>
+#include <QDesktopWidget>
+#include <QList>
+#include <QScreen>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +42,8 @@ public:
 
     std::vector<League> Leagues;
     int numLeagues = 0, LeagueID = 0;
+
+    static void AlignToCenter(QWidget*);
 
 public slots:
     // Push Buttons Slots

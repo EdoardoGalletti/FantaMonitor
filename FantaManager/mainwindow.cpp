@@ -7,19 +7,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setup();
     createActions();
     createMenus();
-    //ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    //delete ui;
 }
-
 
 void MainWindow::setup()
 {
     // Main Window setup
     this->setGeometry(0, 0, 1201, 801);
+    AlignToCenter(this);
+
     statusBar = new QStatusBar(this);
     statusBar->setGeometry(0, this->height() - 20, this->width(), 20);
 
@@ -197,6 +196,10 @@ void MainWindow::createMenus()
 
 void MainWindow::newLeague()
 {
+    CreateLeagueUI cl;
+    cl.setModal(true);
+    cl.exec();
+
     LeagueID = numLeagues;
     numLeagues += 1;
     Leagues.resize(numLeagues);
@@ -223,4 +226,19 @@ void MainWindow::on_addTeamPb_clicked()
         }
     };
 
+}
+
+
+void MainWindow::AlignToCenter(QWidget* window){
+    QList<QScreen *> AvailableScreens;
+    AvailableScreens = QGuiApplication::screens();
+    QScreen* screen = AvailableScreens.first();
+    window->setGeometry(
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    window->size(),
+                    screen->availableGeometry()
+                    )
+                );
 }
