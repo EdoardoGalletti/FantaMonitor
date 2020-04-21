@@ -2,6 +2,10 @@
 #define CREATELEAGUEUI_H
 
 #include <QDialog>
+#include <QFormLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSpinBox>
 
 namespace Ui {
 class CreateLeagueUI;
@@ -17,7 +21,10 @@ public:
     void setup();
 
 private:
-    Ui::CreateLeagueUI *ui;
+    //Ui::CreateLeagueUI *ui;
+    QLineEdit* leagueNameLE; // LE stands for Line Edit
+    QLineEdit* nOfTeamsLE;
+    QSpinBox* creditsLE;
 };
 
 #endif // CREATELEAGUEUI_H
