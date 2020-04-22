@@ -198,12 +198,12 @@ void MainWindow::newLeague()
     CreateLeagueUI cl;
     cl.setModal(true);
     cl.exec();
-
-    LeagueID = numLeagues;
-    numLeagues += 1;
-    Leagues.resize(numLeagues);
-    Leagues[LeagueID].setLeagueName(QString("Lega di prova"));
-    this->statusBar->showMessage("League successfully created!");
+//    LeagueID = numLeagues;
+//    numLeagues += 1;
+//    Leagues.resize(numLeagues);
+//    Leagues[LeagueID].setLeagueName(QString("Lega di prova"));
+    QString message = "Credits: " + QString::number(cl.getCredits()) + " Teams: " + QString::number(cl.getnOfTeams());
+    this->statusBar->showMessage(message);
 }
 
 void MainWindow::on_addTeamPb_clicked()
