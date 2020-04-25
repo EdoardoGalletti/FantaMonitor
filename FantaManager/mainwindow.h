@@ -37,7 +37,7 @@ public:
     // Destructors
     ~MainWindow();
 
-    std::vector<League> Leagues;
+    std::vector<League*> Leagues;
     int numLeagues = 0, LeagueID = 0;
 
 public slots:
@@ -52,6 +52,7 @@ private:
     void createMenus();
     void createActions();
     void newLeague();
+    void refreshMainWindow();
 
     // Status Bar & Menu Bar
     QStatusBar* statusBar;
@@ -81,6 +82,12 @@ private:
 //    QAction *aboutAct;
 //    QAction *aboutQtAct;
 //    QLabel *infoLabel;
+
+
+    // Create Leagues Management Panel
+    QGroupBox* leaguesManagementPanel;
+    // Create Leagues Management SubWidgets
+    QComboBox* leaguesPopup;
 
     // Create Teams Management Panel
     QGroupBox* teamsManagementPanel;

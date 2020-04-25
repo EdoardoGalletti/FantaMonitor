@@ -14,9 +14,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::setup()
 {
+    int offset = 50;
     // Main Window setup
-    this->setGeometry(0, 0, 1201, 801);
+    this->setGeometry(0, 0, 1201, 801+offset);
     AlignToCenter(this);
+
 
     statusBar = new QStatusBar(this);
     statusBar->setGeometry(0, this->height() - 20, this->width(), 20);
@@ -24,6 +26,14 @@ void MainWindow::setup()
     /*****************************************************/
     /**************** QWIDGETS CREATION ******************/
     /*****************************************************/
+
+    // Create Leagues Panel
+    leaguesManagementPanel = new QGroupBox(this);
+    // Create League SubWidgets
+    leaguesPopup = new QComboBox(leaguesManagementPanel);
+    // Set Geometry
+    leaguesManagementPanel->setGeometry(50, 11+offset, 1140, 80);
+    leaguesPopup->setGeometry(41, 46, 81, 23);
 
     // Create Teams Management Panel
     teamsManagementPanel = new QGroupBox(this);
@@ -46,7 +56,7 @@ void MainWindow::setup()
     teamTable->setStyleSheet("QTableView {selection-background-color: red;}"); // sfondo rosso della selezione
     teamTab = new QTableWidget(teamsManagementPanel);
     // Set geometry
-    teamsManagementPanel->setGeometry(290, 101, 900, 250);
+    teamsManagementPanel->setGeometry(290, 101+offset, 900, 250);
     teamsManagementPanel->setTitle("Teams Management");
     addTeamPb->setGeometry(33, 45, 45, 45);
     rmTeamPb->setGeometry(96, 45, 45, 45);
@@ -77,7 +87,7 @@ void MainWindow::setup()
     searchBox = new QTextEdit(playersManagementPanel);
     rolePopup = new QComboBox(playersManagementPanel);
     // Set geometry
-    playersManagementPanel->setGeometry(50, 396, 375, 355);
+    playersManagementPanel->setGeometry(50, 396+offset, 375, 355);
     playersManagementPanel->setTitle("Players Management");
     addPlayerPb->setGeometry(300, 68, 45, 45);
     rmPlayerPb->setGeometry(300, 129, 45, 45);
@@ -102,7 +112,7 @@ void MainWindow::setup()
     bonusAx = new QWidget(playerInfoPanel);
     playerNameLabel = new QLabel(playerInfoPanel);
     // Set geometry
-    playerInfoPanel->setGeometry(740, 397, 450, 354);
+    playerInfoPanel->setGeometry(740, 397+offset, 450, 354);
     playerInfoPanel->setTitle("Player Info");
     playerInfoTab->setGeometry(20, 59, 202, 275);
     graphsCb->setGeometry(359, 15, 75, 23);
@@ -118,7 +128,7 @@ void MainWindow::setup()
     stopPb = new QPushButton(TimerPanel);
     resetPb = new QPushButton(TimerPanel);
     // Set geometry
-    TimerPanel->setGeometry(482, 396, 200, 150);
+    TimerPanel->setGeometry(482, 396+offset, 200, 150);
     TimerPanel->setTitle("Timer Panel");
     timerEb->setGeometry(78, 21, 45, 45);
     startPb->setGeometry(16, 88, 45, 45);
@@ -199,12 +209,15 @@ void MainWindow::newLeague()
     cl.setModal(true);
     cl.exec();
     League* temp = cl.getLeague();
-//    LeagueID = numLeagues;
-//    numLeagues += 1;
-//    Leagues.resize(numLeagues);
-//    Leagues[LeagueID].setLeagueName(QString("Lega di prova"));
-    QString message = "Credits: " + QString::number(temp->getLeagueCredits()) + " Teams: " + QString::number(temp->getLeagueTeamsNumber());
-    this->statusBar->showMessage(message);
+    if (!temp->getLeagueName().isEmpty())
+    {
+        LeagueID = numLeagues;
+        numLeagues += 1;
+        Leagues.resize(numLeagues);
+        Leagues[LeagueID] = temp;
+        this->statusBar->showMessage("League created successfully!", 2000);
+        refreshMainWindow();
+    }
 }
 
 void MainWindow::on_addTeamPb_clicked()
@@ -218,12 +231,19 @@ void MainWindow::on_addTeamPb_clicked()
     else {
         // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
         QString teamName = teamsNameEdit->toPlainText();
-        Leagues[LeagueID].addTeam(teamName);
+        Leagues[LeagueID]->addTeam(teamName);
         //insert data
-        for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
-            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
-            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
+        for (int i = 0; i < Leagues[LeagueID]->getLeagueTeamsNumber(); i++) {
+            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID]->getLeagueTeams()[i].getTeamName() ) );
+            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID]->getLeagueTeams()[i].getTeamCredits()) ) );
         }
     };
 
+}
+
+void MainWindow::refreshMainWindow(){
+    //insert data
+    for (int i = 0; i < numLeagues; i++) {
+        leaguesPopup->addItem(Leagues[i]->getLeagueName());
+    }
 }
