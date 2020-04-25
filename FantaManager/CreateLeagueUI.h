@@ -8,12 +8,14 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include "UImethods.h"
+#include "League.h"
 
 namespace Ui {
 class CreateLeagueUI;
 }
 
-class CreateLeagueUI : public QDialog
+class CreateLeagueUI : public QDialog, public UImethods
 {
     Q_OBJECT
 
@@ -21,11 +23,11 @@ public:
     explicit CreateLeagueUI(QWidget *parent = nullptr);
     ~CreateLeagueUI();
     void setup();
-    void createLeague();
     void setCredits(int);
     int getCredits();
     void setnOfTeams(int);
     int getnOfTeams();
+    League* getLeague();
 
 private:
     //Ui::CreateLeagueUI *ui;
@@ -33,6 +35,7 @@ private:
     QSpinBox* nOfTeamsSB;
     QSpinBox* creditsSB;
 
+    League* l;
     int credits, nOfTeams;
 
 protected:

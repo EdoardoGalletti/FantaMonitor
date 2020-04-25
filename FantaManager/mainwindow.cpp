@@ -198,11 +198,12 @@ void MainWindow::newLeague()
     CreateLeagueUI cl;
     cl.setModal(true);
     cl.exec();
+    League* temp = cl.getLeague();
 //    LeagueID = numLeagues;
 //    numLeagues += 1;
 //    Leagues.resize(numLeagues);
 //    Leagues[LeagueID].setLeagueName(QString("Lega di prova"));
-    QString message = "Credits: " + QString::number(cl.getCredits()) + " Teams: " + QString::number(cl.getnOfTeams());
+    QString message = "Credits: " + QString::number(temp->getLeagueCredits()) + " Teams: " + QString::number(temp->getLeagueTeamsNumber());
     this->statusBar->showMessage(message);
 }
 
@@ -225,19 +226,4 @@ void MainWindow::on_addTeamPb_clicked()
         }
     };
 
-}
-
-
-void MainWindow::AlignToCenter(QWidget* window){
-    QList<QScreen *> AvailableScreens;
-    AvailableScreens = QGuiApplication::screens();
-    QScreen* screen = AvailableScreens.first();
-    window->setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    window->size(),
-                    screen->availableGeometry()
-                    )
-                );
 }

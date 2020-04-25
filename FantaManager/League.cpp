@@ -20,8 +20,17 @@ std::vector<Team> League::getLeagueTeams(){
 void League::setLeagueTeamsNumber(int numTeams){
    this->numTeams = numTeams;
 }
+
+void League::setLeagueCredits(int credits){
+   this->credits = credits;
+}
+
 int League::getLeagueTeamsNumber(){
     return numTeams;
+}
+
+int League::getLeagueCredits(){
+    return credits;
 }
 
 void League::addTeam(QString teamName){

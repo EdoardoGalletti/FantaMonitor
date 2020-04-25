@@ -1,15 +1,15 @@
 #include "CreateLeagueUI.h"
-#include "mainwindow.h"
-#include "League.h"
 
 CreateLeagueUI::CreateLeagueUI(QWidget *parent) :
     QDialog(parent)
 {
+    l = new League();
     setup();
 }
 
 CreateLeagueUI::~CreateLeagueUI()
 {
+    delete l;
 }
 
 void CreateLeagueUI::setup(){
@@ -17,7 +17,7 @@ void CreateLeagueUI::setup(){
     /************** LEAGUE CREATION WINDOW ***************/
     /*****************************************************/
     this->setGeometry(0, 0, 320, 200);
-    MainWindow::AlignToCenter(this);
+    AlignToCenter(this);
     // Set Main Window title
     this->setWindowTitle("Create a new League");
 
@@ -69,7 +69,9 @@ void CreateLeagueUI::closeEvent(QCloseEvent *event)
 
     switch (ret) {
       case QMessageBox::Yes:
-          this->setCredits(this->creditsSB->value());
+          l->setLeagueName(this->leagueNameLE->text());
+          l->setLeagueTeamsNumber(this->nOfTeamsSB->value());
+          l->setLeagueCredits(this->creditsSB->value());
           event->accept();
           break;
       case QMessageBox::No:
@@ -102,7 +104,7 @@ int CreateLeagueUI::getnOfTeams(){
     return this->nOfTeams;
 }
 
-void CreateLeagueUI::createLeague(){
-
+League* CreateLeagueUI::getLeague(){
+    return l;
 }
 

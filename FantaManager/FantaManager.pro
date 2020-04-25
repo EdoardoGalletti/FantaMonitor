@@ -19,6 +19,7 @@ SOURCES += \
     CreateLeagueUI.cpp \
     League.cpp \
     Team.cpp \
+    UImethods.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -26,6 +27,7 @@ HEADERS += \
     CreateLeagueUI.h \
     League.h \
     Team.h \
+    UImethods.h \
     mainwindow.h
 
 FORMS +=
