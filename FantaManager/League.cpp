@@ -13,7 +13,7 @@ QString League::getLeagueName() {
     return LeagueName;
 }
 
-std::vector<Team> League::getLeagueTeams(){
+QVector<Team> League::getLeagueTeams(){
     return LeagueTeams;
 }
 

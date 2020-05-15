@@ -27,7 +27,7 @@ public:
     int getCredits();
     void setnOfTeams(int);
     int getnOfTeams();
-    League* getLeague();
+    League getLeague();
 
 private:
     //Ui::CreateLeagueUI *ui;

@@ -2,14 +2,14 @@
 #define LEAGUE_H
 
 #include <QString>
-#include <vector>
+#include <QVector>
 #include "Team.h"
 
 class League
 {
 private:
     QString LeagueName = "";
-    std::vector<Team> LeagueTeams;
+    QVector<Team> LeagueTeams;
     int numTeams = 0, credits;
 
 public:
@@ -22,7 +22,7 @@ public:
     QString getLeagueName();
     int getLeagueTeamsNumber();
     int getLeagueCredits();
-    std::vector<Team> getLeagueTeams();
+    QVector<Team> getLeagueTeams();
 protected:
 };
 

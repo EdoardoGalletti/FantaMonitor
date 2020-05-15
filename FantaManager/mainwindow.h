@@ -16,7 +16,7 @@
 #include <QHeaderView>
 #include <QStatusBar>
 #include <QMenuBar>
-#include <vector>
+#include <QVector>
 #include "Team.h"
 #include "League.h"
 #include "CreateLeagueUI.h"
@@ -37,7 +37,7 @@ public:
     // Destructors
     ~MainWindow();
 
-    std::vector<League*> Leagues;
+    QVector<League> Leagues;
     int numLeagues = 0, LeagueID = 0;
 
 public slots:

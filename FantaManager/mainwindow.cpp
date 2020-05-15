@@ -208,13 +208,12 @@ void MainWindow::newLeague()
     CreateLeagueUI cl;
     cl.setModal(true);
     cl.exec();
-    League* temp = cl.getLeague();
-    if (!temp->getLeagueName().isEmpty())
+    League temp = cl.getLeague();
+    if (!temp.getLeagueName().isEmpty())
     {
         LeagueID = numLeagues;
         numLeagues += 1;
-        Leagues.resize(numLeagues);
-        Leagues[LeagueID] = temp;
+        Leagues.append(temp);
         this->statusBar->showMessage("League created successfully!", 2000);
         refreshMainWindow();
     }
@@ -231,19 +230,20 @@ void MainWindow::on_addTeamPb_clicked()
     else {
         // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
         QString teamName = teamsNameEdit->toPlainText();
-        Leagues[LeagueID]->addTeam(teamName);
+        Leagues[LeagueID].addTeam(teamName);
         //insert data
-        for (int i = 0; i < Leagues[LeagueID]->getLeagueTeamsNumber(); i++) {
-            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID]->getLeagueTeams()[i].getTeamName() ) );
-            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID]->getLeagueTeams()[i].getTeamCredits()) ) );
+        for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
+            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
+            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
         }
     };
 
 }
 
 void MainWindow::refreshMainWindow(){
-    //insert data
-    for (int i = 0; i < numLeagues; i++) {
-        leaguesPopup->addItem(Leagues[i]->getLeagueName());
+    // Refresh Leagues popup
+    leaguesPopup->clear();
+    for (int i = 0; i < Leagues.size(); i++) {
+        leaguesPopup->addItem(Leagues[i].getLeagueName());
     }
 }

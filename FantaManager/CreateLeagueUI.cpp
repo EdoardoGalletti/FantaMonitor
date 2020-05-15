@@ -104,7 +104,7 @@ int CreateLeagueUI::getnOfTeams(){
     return this->nOfTeams;
 }
 
-League* CreateLeagueUI::getLeague(){
-    return l;
+League CreateLeagueUI::getLeague(){
+    return *l;
 }
 
