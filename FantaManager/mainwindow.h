@@ -53,6 +53,7 @@ private:
     void createActions();
     void newLeague();
     void refreshMainWindow();
+    int findLeagueIndex(QString);
 
     // Status Bar & Menu Bar
     QStatusBar* statusBar;

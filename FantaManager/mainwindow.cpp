@@ -230,6 +230,8 @@ void MainWindow::on_addTeamPb_clicked()
     else {
         // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
         QString teamName = teamsNameEdit->toPlainText();
+        QString LeagueName = leaguesPopup->currentText();
+        LeagueID = findLeagueIndex(LeagueName);
         Leagues[LeagueID].addTeam(teamName);
         //insert data
         for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
@@ -246,4 +248,13 @@ void MainWindow::refreshMainWindow(){
     for (int i = 0; i < Leagues.size(); i++) {
         leaguesPopup->addItem(Leagues[i].getLeagueName());
     }
+}
+
+int MainWindow::findLeagueIndex(QString LeagueName){
+    int idx = -1;
+    for (int i = 0; i < Leagues.size(); i++) {
+        if (Leagues.value(i).getLeagueName() == LeagueName)
+            idx = i;
+    }
+    return idx;
 }
