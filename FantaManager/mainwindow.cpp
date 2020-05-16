@@ -16,7 +16,7 @@ void MainWindow::setup()
 {
     int offset = 50;
     // Main Window setup
-    this->setGeometry(0, 0, 1201, 801+offset);
+    this->setGeometry(0, 0, 1200, 800+offset);
     AlignToCenter(this);
 
 
@@ -34,6 +34,9 @@ void MainWindow::setup()
     // Set Geometry
     leaguesManagementPanel->setGeometry(50, 11+offset, 1140, 80);
     leaguesPopup->setGeometry(41, 46, 81, 23);
+    // Signals and Slots
+    QObject::connect(leaguesPopup, SIGNAL(activated(int)), this, SLOT(onComboboxActivated(int)));
+
 
     // Create Teams Management Panel
     teamsManagementPanel = new QGroupBox(this);
@@ -76,6 +79,7 @@ void MainWindow::setup()
     modTeamPb->setIconSize(QSize(32, 32));
     // Signals and Slots
     QObject::connect(addTeamPb, SIGNAL(clicked()), this, SLOT(on_addTeamPb_clicked()));
+    QObject::connect(rmTeamPb, SIGNAL(clicked()), this, SLOT(on_rmTeamPb_clicked()));
 
     // Create Players Management Panel
     playersManagementPanel = new QGroupBox(this);
@@ -221,11 +225,16 @@ void MainWindow::newLeague()
 
 void MainWindow::on_addTeamPb_clicked()
 {
-    if (numLeagues == 0){
-        QMessageBox noLeagueErrorBox;
-        noLeagueErrorBox.setIcon(QMessageBox::Critical);
-        noLeagueErrorBox.setText("No League Available! Please, create one!");
-        noLeagueErrorBox.exec();
+    if (Leagues.size() == 0){
+        QMessageBox* noLeagueErrorBox;
+        noLeagueErrorBox = new QMessageBox;
+        noLeagueErrorBox->setStyleSheet("QPushButton         {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}"
+                                 "QPushButton:hover   {color: #ffffff; background-color: #000000; border: 2px solid #eeeeee; padding: 10px; font: 12px}"
+                                 "QPushButton:pressed {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}");
+        noLeagueErrorBox->setIcon(QMessageBox::Critical);
+        noLeagueErrorBox->setText("No League Available! Please, create one!");
+        noLeagueErrorBox->exec();
+        delete noLeagueErrorBox;
     }
     else {
         // this->statusBar->showMessage("Button Pressed!"); // --> per provare la status bar
@@ -233,13 +242,24 @@ void MainWindow::on_addTeamPb_clicked()
         QString LeagueName = leaguesPopup->currentText();
         LeagueID = findLeagueIndex(LeagueName);
         Leagues[LeagueID].addTeam(teamName);
-        //insert data
-        for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
-            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
-            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
-        }
+        refreshTeamList();
     };
+    teamsNameEdit->clear();
+}
 
+void MainWindow::on_rmTeamPb_clicked(){
+    QTableWidgetItem* item = teamTable->currentItem();
+    QString TeamName = item->data(0).toString();
+    if (TeamName != "")
+    {
+        QString LeagueName = leaguesPopup->currentText();
+        int TeamIndex = findTeamIndex(LeagueName, TeamName);
+        LeagueID = findLeagueIndex(LeagueName);
+        QVector<Team> LeagueTeams = Leagues.value(LeagueID).getLeagueTeams();
+        LeagueTeams.remove(TeamIndex);
+        Leagues[LeagueID].setLeagueTeams(LeagueTeams);
+        refreshTeamList();
+    }
 }
 
 void MainWindow::refreshMainWindow(){
@@ -248,6 +268,21 @@ void MainWindow::refreshMainWindow(){
     for (int i = 0; i < Leagues.size(); i++) {
         leaguesPopup->addItem(Leagues[i].getLeagueName());
     }
+
+    // Refresh list of players in league
+    refreshTeamList();
+}
+
+void MainWindow::refreshTeamList(){
+    QString LeagueName = leaguesPopup->currentText();
+    LeagueID = findLeagueIndex(LeagueName);
+    teamTable->clear();
+    //insert data
+    for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
+        teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
+        teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
+    }
+    return;
 }
 
 int MainWindow::findLeagueIndex(QString LeagueName){
@@ -257,4 +292,18 @@ int MainWindow::findLeagueIndex(QString LeagueName){
             idx = i;
     }
     return idx;
+}
+
+int MainWindow::findTeamIndex(QString LeagueName, QString TeamName){
+    int LeagueIndex = findLeagueIndex(LeagueName);
+    int idx = -1;
+    for (int i = 0; i < Leagues.value(LeagueIndex).getLeagueTeams().size(); i++) {
+        if (Leagues.value(LeagueIndex).getLeagueTeams().value(i).getTeamName() == TeamName)
+            idx = i;
+    }
+    return idx;
+}
+
+void MainWindow::onComboboxActivated(int index){
+    refreshTeamList();
 }

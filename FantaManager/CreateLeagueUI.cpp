@@ -23,13 +23,15 @@ void CreateLeagueUI::setup(){
     /*****************************************************/
     /**************** QWIDGETS CREATION ******************/
     /*****************************************************/
-    leagueNameLE = new QLineEdit("My League");
+    leagueNameLE = new QLineEdit(tr("My League"));
     nOfTeamsSB = new QSpinBox();
     nOfTeamsSB->setRange(2, 100);
     nOfTeamsSB->setValue(8);
     creditsSB = new QSpinBox();
     creditsSB->setRange(0, 10000);
     creditsSB->setValue(1000);
+    creditsSB->setPrefix("$");
+    creditsSB->setSingleStep(100);
 
     /*****************************************************/
     /**************** QWIDGETS LAYOUT ********************/
@@ -66,8 +68,8 @@ void CreateLeagueUI::setup(){
     /*****************************************************/
 
     this->setStyleSheet(QString("QDialog     {background-color: #000000;}"
-                                "QLineEdit   {border: 2px solid gray; border-radius: 10px; padding: 0 8px; background: #eeedf5; selection-background-color: darkgray;}"
-                                "QSpinBox    {padding-right: 15px; border: 2px solid gray; border-radius: 2px; border-width: 3; background-color: #ffffff; selection-background-color: darkgray;}"));
+                                "QLineEdit   {background-color: #eeedf5; border: 2px solid gray; border-radius: 10px; selection-background-color: darkgray; padding: 0 8px; }"
+                                "QSpinBox    {background-color: #ffffff; border: 2px solid gray; border-radius: 2px;  selection-background-color: darkgray; padding-right: 15px; border-width: 3; }"));
 
 }
 
@@ -78,8 +80,8 @@ void CreateLeagueUI::closeEvent(QCloseEvent *event)
                          "QPushButton:hover   {color: #ffffff; background-color: #000000; border: 2px solid #eeeeee; padding: 10px; font: 12px}"
                          "QPushButton:pressed {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}");
 
-    msgBox.setText("Your league is going to be created.");
-    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setText(tr("Your league is going to be created."));
+    msgBox.setInformativeText(tr("Do you want to save your changes?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();

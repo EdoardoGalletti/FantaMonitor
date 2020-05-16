@@ -25,6 +25,10 @@ void League::setLeagueCredits(int credits){
    this->credits = credits;
 }
 
+void League::setLeagueTeams(QVector<Team> LeagueTeams){
+    this->LeagueTeams = LeagueTeams;
+}
+
 int League::getLeagueTeamsNumber(){
     return LeagueTeams.size();
 }
@@ -34,9 +38,11 @@ int League::getLeagueCredits(){
 }
 
 void League::addTeam(QString teamName){
-    numTeams += 1;
-    Team temp;
-    temp.setTeamName(teamName);
-    temp.setTeamCredits(this->getLeagueCredits());
-    LeagueTeams.append(temp);
+    if (teamName != "")
+    {
+        Team temp;
+        temp.setTeamName(teamName);
+        temp.setTeamCredits(this->getLeagueCredits());
+        LeagueTeams.append(temp);
+    }
 }

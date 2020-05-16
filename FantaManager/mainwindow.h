@@ -43,8 +43,10 @@ public:
 public slots:
     // Push Buttons Slots
     void on_addTeamPb_clicked();
+    void on_rmTeamPb_clicked();
 
 private slots:
+    void onComboboxActivated(int index);
 
 private:
     Ui::MainWindow *ui;
@@ -53,7 +55,9 @@ private:
     void createActions();
     void newLeague();
     void refreshMainWindow();
+    void refreshTeamList();
     int findLeagueIndex(QString);
+    int findTeamIndex(QString, QString);
 
     // Status Bar & Menu Bar
     QStatusBar* statusBar;

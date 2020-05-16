@@ -23,6 +23,7 @@ public:
     int getLeagueTeamsNumber();
     int getLeagueCredits();
     QVector<Team> getLeagueTeams();
+    void setLeagueTeams(QVector<Team>);
 protected:
 };
 
