@@ -19,7 +19,6 @@ void CreateLeagueUI::setup(){
     this->setGeometry(0, 0, 320, 200);
     AlignToCenter(this);
     // Set Main Window title
-    this->setWindowTitle("Create a new League");
 
     /*****************************************************/
     /**************** QWIDGETS CREATION ******************/
@@ -41,16 +40,34 @@ void CreateLeagueUI::setup(){
     formLayout->addRow(tr("&Number of Teams:"), nOfTeamsSB);
     formLayout->addRow(tr("&Credits:"), creditsSB);
 
-    setLayout(formLayout);
+    //setLayout(formLayout);
+
+    buttonBox = new QDialogButtonBox;
+    buttonBox->addButton(tr("Create"), QDialogButtonBox::AcceptRole);
+    buttonBox->addButton(tr("Cancel"), QDialogButtonBox::RejectRole);
+    connect(buttonBox, SIGNAL(accepted()),
+            this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()),
+            this, SLOT(reject()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(formLayout);
+    mainLayout->addWidget(buttonBox);
+    setLayout(mainLayout);
+
+    setWindowTitle(tr("Create a new League"));
 
 
+    buttonBox->setStyleSheet("QPushButton         {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}"
+                             "QPushButton:hover   {color: #ffffff; background-color: #000000; border: 2px solid #eeeeee; padding: 10px; font: 12px}"
+                             "QPushButton:pressed {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}");
     /*****************************************************/
     /**************** this STYLESHEET ********************/
     /*****************************************************/
 
     this->setStyleSheet(QString("QDialog     {background-color: #000000;}"
-                                "QLineEdit   {border: 2px solid gray; border-radius: 10px; padding: 0 8px; background: yellow; selection-background-color: darkgray;}"
-                                "QSpinBox    {padding-right: 15px; border: 2px solid gray; border-radius: 2px; border-width: 3; background: yellow}"));
+                                "QLineEdit   {border: 2px solid gray; border-radius: 10px; padding: 0 8px; background: #eeedf5; selection-background-color: darkgray;}"
+                                "QSpinBox    {padding-right: 15px; border: 2px solid gray; border-radius: 2px; border-width: 3; background-color: #ffffff; selection-background-color: darkgray;}"));
 
 }
 
@@ -108,3 +125,6 @@ League CreateLeagueUI::getLeague(){
     return *l;
 }
 
+void CreateLeagueUI::accept(){
+    this->close();
+}

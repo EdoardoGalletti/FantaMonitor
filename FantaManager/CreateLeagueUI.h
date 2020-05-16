@@ -8,6 +8,7 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QDialogButtonBox>
 #include "UImethods.h"
 #include "League.h"
 
@@ -29,12 +30,15 @@ public:
     int getnOfTeams();
     League getLeague();
 
+public slots:
+    void accept();
+
 private:
     //Ui::CreateLeagueUI *ui;
     QLineEdit* leagueNameLE; // LE stands for Line Edit
     QSpinBox* nOfTeamsSB;
     QSpinBox* creditsSB;
-
+    QDialogButtonBox *buttonBox;
     League* l;
     int credits, nOfTeams;
 
