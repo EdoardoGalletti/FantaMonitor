@@ -46,7 +46,7 @@ public slots:
     void on_rmTeamPb_clicked();
 
 private slots:
-    void onComboboxActivated(int index);
+    void onComboboxActivated(int);
 
 private:
     Ui::MainWindow *ui;
@@ -54,6 +54,7 @@ private:
     void createMenus();
     void createActions();
     void newLeague();
+    void rmLeague();
     void refreshMainWindow();
     void refreshTeamList();
     int findLeagueIndex(QString);
@@ -67,6 +68,7 @@ private:
     QMenu *helpMenu;
 //    QActionGroup *alignmentGroup;
     QAction *newAct;
+    QAction *rmLeagueAct;
 //    QAction *openAct;
 //    QAction *saveAct;
 //    QAction *printAct;

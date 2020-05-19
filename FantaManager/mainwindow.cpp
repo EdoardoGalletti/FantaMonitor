@@ -47,7 +47,7 @@ void MainWindow::setup()
     modTeamPb = new QPushButton(teamsManagementPanel);
     teamsNameEdit = new QTextEdit(teamsManagementPanel);
     teamTable = new QTableWidget(teamsManagementPanel);
-    teamTable->setRowCount(8);
+    teamTable->setRowCount(50);
     teamTable->setColumnCount(2);
     teamTableHeader<<"Name"<<"Credits";
     teamTable->setHorizontalHeaderLabels(teamTableHeader);
@@ -162,7 +162,9 @@ void MainWindow::setup()
                                 "QStatusBar          {color: #ffffff; background-color: #808080}"
                                 "QMenuBar            {color: #ffffff; background-color: #000000}"
                                 "QMessageBox         {background-color: #000000}"
-                                "QMessageBox QPushButton {}"));
+                                "QMessageBox QPushButton {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}"
+                                "QMessageBox QPushButton:hover   {color: #ffffff; background-color: #000000; border: 2px solid #eeeeee; padding: 10px; font: 12px}"
+                                "QMessageBox QPushButton:pressed {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}"));
 
     // Set Main Window title
     this->setWindowTitle("Fanta Manager v0.01");
@@ -174,6 +176,11 @@ void MainWindow::createActions()
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new league"));
     connect(newAct, &QAction::triggered, this, &MainWindow::newLeague);
+
+    rmLeagueAct = new QAction(tr("&Remove League"), this);
+    rmLeagueAct->setShortcuts(QKeySequence::Delete);
+    rmLeagueAct->setStatusTip(tr("Create a new league"));
+    connect(rmLeagueAct, &QAction::triggered, this, &MainWindow::rmLeague);
     //    ...
     //    alignmentGroup = new QActionGroup(this);
     //    alignmentGroup->addAction(leftAlignAct);
@@ -187,6 +194,7 @@ void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newAct);
+    fileMenu->addAction(rmLeagueAct);
     //    fileMenu->addAction(openAct);
     //    fileMenu->addAction(saveAct);
     //    fileMenu->addAction(printAct);
@@ -223,14 +231,46 @@ void MainWindow::newLeague()
     }
 }
 
+void MainWindow::rmLeague()
+{
+    if (Leagues.size() > 0)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("The league will be removed."));
+        msgBox.setInformativeText("Do you want to continue?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Save);
+        int ret = msgBox.exec();
+        QString LeagueName;
+        int LeagueIndex;
+
+        switch (ret) {
+        case QMessageBox::Yes:
+            // Yes was clicked
+            LeagueName = leaguesPopup->currentText();
+            LeagueIndex = findLeagueIndex(LeagueName);
+            Leagues.remove(LeagueIndex);
+            refreshMainWindow();
+            break;
+        case QMessageBox::No:
+            // No was clicked
+            break;
+        case QMessageBox::Cancel:
+            // Cancel was clicked
+            break;
+        default:
+            // should never be reached
+            break;
+        }
+    }
+}
+
+
 void MainWindow::on_addTeamPb_clicked()
 {
     if (Leagues.size() == 0){
         QMessageBox* noLeagueErrorBox;
         noLeagueErrorBox = new QMessageBox;
-        noLeagueErrorBox->setStyleSheet("QPushButton         {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}"
-                                 "QPushButton:hover   {color: #ffffff; background-color: #000000; border: 2px solid #eeeeee; padding: 10px; font: 12px}"
-                                 "QPushButton:pressed {color: #ffffff; background-color: #000000; border: 2px solid #808080; padding: 10px; font: 12px}");
         noLeagueErrorBox->setIcon(QMessageBox::Critical);
         noLeagueErrorBox->setText("No League Available! Please, create one!");
         noLeagueErrorBox->exec();
@@ -248,24 +288,28 @@ void MainWindow::on_addTeamPb_clicked()
 }
 
 void MainWindow::on_rmTeamPb_clicked(){
-    QTableWidgetItem* item = teamTable->currentItem();
-    QString TeamName = item->data(0).toString();
-    if (TeamName != "")
+    QString LeagueName = leaguesPopup->currentText();
+    LeagueID = findLeagueIndex(LeagueName);
+    QVector<Team> LeagueTeams = Leagues.value(LeagueID).getLeagueTeams();
+    if (LeagueTeams.size() > 0)
     {
-        QString LeagueName = leaguesPopup->currentText();
-        int TeamIndex = findTeamIndex(LeagueName, TeamName);
-        LeagueID = findLeagueIndex(LeagueName);
-        QVector<Team> LeagueTeams = Leagues.value(LeagueID).getLeagueTeams();
-        LeagueTeams.remove(TeamIndex);
-        Leagues[LeagueID].setLeagueTeams(LeagueTeams);
-        refreshTeamList();
+        QTableWidgetItem* item = teamTable->currentItem();
+        if (item)
+        {
+            QString TeamName = item->data(0).toString();
+            int TeamIndex = findTeamIndex(LeagueName, TeamName);
+            LeagueTeams.remove(TeamIndex);
+            Leagues[LeagueID].setLeagueTeams(LeagueTeams);
+            refreshTeamList();
+        }
     }
 }
 
 void MainWindow::refreshMainWindow(){
     // Refresh Leagues popup
     leaguesPopup->clear();
-    for (int i = 0; i < Leagues.size(); i++) {
+    for (int i = 0; i < Leagues.size(); i++)
+    {
         leaguesPopup->addItem(Leagues[i].getLeagueName());
     }
 
@@ -274,13 +318,16 @@ void MainWindow::refreshMainWindow(){
 }
 
 void MainWindow::refreshTeamList(){
-    QString LeagueName = leaguesPopup->currentText();
-    LeagueID = findLeagueIndex(LeagueName);
-    teamTable->clear();
-    //insert data
-    for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
-        teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
-        teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
+    if (Leagues.size() > 0)
+    {
+        QString LeagueName = leaguesPopup->currentText();
+        LeagueID = findLeagueIndex(LeagueName);
+        teamTable->clear();
+        //insert data
+        for (int i = 0; i < Leagues[LeagueID].getLeagueTeamsNumber(); i++) {
+            teamTable->setItem(i, 0, new QTableWidgetItem( Leagues[LeagueID].getLeagueTeams()[i].getTeamName() ) );
+            teamTable->setItem(i, 1, new QTableWidgetItem( QString::number(Leagues[LeagueID].getLeagueTeams()[i].getTeamCredits()) ) );
+        }
     }
     return;
 }

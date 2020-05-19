@@ -42,3 +42,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     BtnImages.qrc
+
+RC_ICONS = FantaManagerIcon.ico
