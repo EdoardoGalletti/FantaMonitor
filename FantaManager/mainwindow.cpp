@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 MainWindow::~MainWindow()
 {
+    bool json = true;
+    this->saveSession(json ? MainWindow::Json : MainWindow::Binary);
 }
 
 void MainWindow::setup()
@@ -353,4 +355,79 @@ int MainWindow::findTeamIndex(QString LeagueName, QString TeamName){
 
 void MainWindow::onComboboxActivated(int index){
     refreshTeamList();
+}
+
+void MainWindow::read(const QJsonObject &json)
+{
+
+    if (json.contains("leagues") && json["leagues"].isArray()) {
+        QJsonArray levelArray = json["leagues"].toArray();
+        Leagues.clear();
+        Leagues.reserve(levelArray.size());
+        for (int levelIndex = 0; levelIndex < levelArray.size(); ++levelIndex) {
+            QJsonObject levelObject = levelArray[levelIndex].toObject();
+            League league;
+            league.read(levelObject);
+            Leagues.append(league);
+        }
+    }
+}
+
+void MainWindow::write(QJsonObject &json) const
+{
+
+    QJsonArray leagueArray;
+    for (const League &league : Leagues) {
+        QJsonObject levelObject;
+        league.write(levelObject);
+        leagueArray.append(levelObject);
+    }
+    json["leagues"] = leagueArray;
+}
+
+bool MainWindow::loadSession(MainWindow::SaveFormat saveFormat)
+{
+    QFile loadFile(saveFormat == Json
+                   ? QStringLiteral("save.json")
+                   : QStringLiteral("save.dat"));
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+
+    QJsonDocument loadDoc(saveFormat == Json
+                          ? QJsonDocument::fromJson(saveData)
+                          : QJsonDocument::fromBinaryData(saveData));
+
+    read(loadDoc.object());
+
+    //    QTextStream(stdout) << "Loaded save for "
+    //                        << loadDoc["player"]["name"].toString()
+    //                        << " using "
+    //                        << (saveFormat != Json ? "binary " : "") << "JSON...\n";
+    return true;
+}
+
+bool MainWindow::saveSession(MainWindow::SaveFormat saveFormat) const
+{
+    QFile saveFile(saveFormat == Json
+                   ? QStringLiteral("save.json")
+                   : QStringLiteral("save.dat"));
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QJsonObject sessionObject;
+    write(sessionObject);
+    QJsonDocument saveDoc(sessionObject);
+    saveFile.write(saveFormat == Json
+                   ? saveDoc.toJson()
+                   : saveDoc.toBinaryData());
+
+    return true;
 }

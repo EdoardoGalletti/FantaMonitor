@@ -46,3 +46,33 @@ void League::addTeam(QString teamName){
         LeagueTeams.append(temp);
     }
 }
+
+void League::read(const QJsonObject &json)
+{
+    if (json.contains("name") && json["name"].isString())
+            LeagueName = json["name"].toString();
+
+    if (json.contains("teams") && json["teams"].isArray()) {
+        QJsonArray teamArray = json["team"].toArray();
+        LeagueTeams.clear();
+        LeagueTeams.reserve(teamArray.size());
+        for (int levelIndex = 0; levelIndex < teamArray.size(); ++levelIndex) {
+            QJsonObject levelObject = teamArray[levelIndex].toObject();
+            Team team;
+            team.read(levelObject);
+            LeagueTeams.append(team);
+        }
+    }
+}
+
+void League::write(QJsonObject &json) const
+{
+    json["name"] = LeagueName;
+    QJsonArray teamArray;
+    for (const Team &team : LeagueTeams) {
+        QJsonObject teamObject;
+        team.write(teamObject);
+        teamArray.append(teamObject);
+    }
+    json["teams"] = teamArray;
+}

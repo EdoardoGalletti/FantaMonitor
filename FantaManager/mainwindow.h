@@ -31,12 +31,21 @@ class MainWindow : public QMainWindow, public UImethods
     Q_OBJECT
 
 public:
+
+    enum SaveFormat {
+            Json, Binary
+        };
+
     // Constructors
     MainWindow(QWidget *parent = nullptr);
 
     // Destructors
     ~MainWindow();
-
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
+    bool loadSession(SaveFormat saveFormat);
+    bool saveSession(SaveFormat saveFormat) const;
+    void refreshMainWindow();
     QVector<League> Leagues;
     int numLeagues = 0, LeagueID = 0;
 
@@ -55,7 +64,6 @@ private:
     void createActions();
     void newLeague();
     void rmLeague();
-    void refreshMainWindow();
     void refreshTeamList();
     int findLeagueIndex(QString);
     int findTeamIndex(QString, QString);

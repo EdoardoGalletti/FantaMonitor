@@ -3,6 +3,11 @@
 
 #include <QString>
 #include <QVector>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QTextStream>
+#include <QFile>
 #include "Team.h"
 
 class League
@@ -13,6 +18,9 @@ private:
     int numTeams = 0, credits;
 
 public:
+    enum SaveFormat {
+            Json, Binary
+        };
     // Constructor
     League();
     void setLeagueName(QString);
@@ -24,6 +32,8 @@ public:
     int getLeagueCredits();
     QVector<Team> getLeagueTeams();
     void setLeagueTeams(QVector<Team>);
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
 protected:
 };
 
