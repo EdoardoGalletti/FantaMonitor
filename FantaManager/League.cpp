@@ -51,9 +51,11 @@ void League::read(const QJsonObject &json)
 {
     if (json.contains("name") && json["name"].isString())
             LeagueName = json["name"].toString();
+    if (json.contains("credits") && json["credits"].isDouble())
+            credits = json["credits"].toInt();
 
     if (json.contains("teams") && json["teams"].isArray()) {
-        QJsonArray teamArray = json["team"].toArray();
+        QJsonArray teamArray = json["teams"].toArray();
         LeagueTeams.clear();
         LeagueTeams.reserve(teamArray.size());
         for (int levelIndex = 0; levelIndex < teamArray.size(); ++levelIndex) {
@@ -68,6 +70,7 @@ void League::read(const QJsonObject &json)
 void League::write(QJsonObject &json) const
 {
     json["name"] = LeagueName;
+    json["credits"] = credits;
     QJsonArray teamArray;
     for (const Team &team : LeagueTeams) {
         QJsonObject teamObject;
